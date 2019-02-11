@@ -12,19 +12,21 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using ArticleLib.Data;
+using ArticleTestApp.ViewModel;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace ArticleTestApp
+namespace ArticleTestApp.UserControls
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class GalleryItemUserControl : UserControl
     {
-        public MainPage()
+        public GalleryItem ViewModel => DataContext as GalleryItem;
+
+        public GalleryItemUserControl()
         {
             this.InitializeComponent();
+            this.DataContextChanged += (sender, args) => Bindings.Update();
         }
     }
 }

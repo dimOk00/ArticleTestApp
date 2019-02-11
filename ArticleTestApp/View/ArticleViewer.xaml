@@ -1,0 +1,44 @@
+﻿<Helpers:BasePage
+    x:Class="ArticleTestApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ViewModel="using:ArticleTestApp.ViewModel"
+    xmlns:Data="using:ArticleLib.Data"
+    xmlns:UserControls="using:ArticleTestApp.UserControls"
+    xmlns:Helpers="using:ArticleTestApp.Helpers"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <ViewModel:ArticleViewerVM />
+    </Page.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox Grid.Column="0" 
+                 ItemsSource="{x:Bind ViewModel.ArticleCollection}"
+                 SelectedItem="{x:Bind ViewModel.SelectedArticle, Mode=TwoWay}">
+            <ListBox.Background>
+                <AcrylicBrush BackgroundSource="HostBackdrop" 
+                              TintOpacity="0.8" 
+                              TintColor="{ThemeResource SystemAltMediumColor}"/>
+            </ListBox.Background>
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="Data:Article">
+                    <TextBlock Text="{x:Bind Title}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Border Margin="20, 10" Grid.Column="1" Visibility="{x:Bind ViewModel.SelectedArticle, Converter={StaticResource NullVisibilityConverter}, Mode=OneWay}">
+            <Border.Background>
+                <AcrylicBrush BackgroundSource="HostBackdrop" 
+                              TintOpacity="0.8" 
+                              TintColor="{ThemeResource SystemAltMediumColor}"/>
+            </Border.Background>
+            <UserControls:ArticleUserControl Margin="20, 10" DataContext="{x:Bind ViewModel, Mode=OneWay}"/>
+        </Border>
+    </Grid>
+</Helpers:BasePage>

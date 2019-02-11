@@ -1,0 +1,54 @@
+﻿<UserControl
+    x:Class="ArticleTestApp.UserControls.ArticleUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ArticleTestApp.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:ArticleLib.Data"
+    mc:Ignorable="d"
+    d:DesignHeight="1000"
+    d:DesignWidth="1500"
+    Background="Transparent"
+    >
+    <RelativePanel>
+        <Button RelativePanel.AlignRightWithPanel="True" Content="X" Command="{x:Bind ViewModel.CloseArticleCommand}"/>
+        <TextBlock Text="{x:Bind ViewModel.SelectedArticle.Title, Mode=OneWay}" Name="ArticleTextBlock" Style="{ThemeResource HeaderTextBlockStyle}"/>
+        <TextBlock Name="AuthorTextBlock" RelativePanel.Below="ArticleTextBlock" Style="{ThemeResource CaptionTextBlockStyle}">
+            <Run Text="Written by"/>
+            <Run Text="{x:Bind ViewModel.SelectedArticle.Author.FirstName, Mode=OneWay}"/>
+            <Run Text="{x:Bind ViewModel.SelectedArticle.Author.LastName, Mode=OneWay}"/>
+            <Run Text="on"/>
+            <Run Text="{x:Bind ViewModel.SelectedArticle.DateWritten, Mode=OneWay, Converter={StaticResource DateTimeOffsetToStringConverter}}"/>
+        </TextBlock>
+        <TextBlock Text="{x:Bind ViewModel.SelectedArticle.Description, Mode=OneWay}" Name="AuthorTextTextBlock" RelativePanel.Below="AuthorTextBlock" Style="{ThemeResource CaptionTextBlockStyle}" Margin="0, 10" HorizontalTextAlignment="Justify"/>
+        <GridView RelativePanel.Below="AuthorTextTextBlock" Margin="20" ItemsSource="{x:Bind ViewModel.SelectedArticle.Gallery, Mode=OneWay}">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="data:GalleryItem">
+                    <Grid Height="200" Width="200" Margin="10">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="{x:Bind ImageURI, Converter={StaticResource ImageConverter}}"/>
+                        </Grid.Background>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="35"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.Background>
+                                <AcrylicBrush TintOpacity="0.7" />
+                            </Grid.Background>
+                            <TextBlock Text="{x:Bind Name}" />
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.Background>
+                                <AcrylicBrush TintOpacity="0.7" />
+                            </Grid.Background>
+                            <TextBlock Text="{x:Bind Description}"  />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </RelativePanel>
+</UserControl>
