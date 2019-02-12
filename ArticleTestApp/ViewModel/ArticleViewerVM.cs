@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Media.Imaging;
 using ArticleLib;
 using ArticleLib.Data;
 using ArticleTestApp.Helpers;
