@@ -1,10 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Media.Imaging;
 using ArticleLib;
 using ArticleLib.Data;
 using ArticleTestApp.Helpers;
+using Microsoft.Toolkit.Uwp.UI;
 
 namespace ArticleTestApp.ViewModel
 {
@@ -17,6 +26,9 @@ namespace ArticleTestApp.ViewModel
         {
             ArticleCollection = new ObservableCollection<Article>();
             CloseArticleCommand = new RelayCommand(() => SelectedArticle = null);
+
+            ImageCache.Instance.CacheDuration = TimeSpan.FromHours(24);
+            ImageCache.Instance.MaxMemoryCacheCount = 100;
 
             _generator = new ArticleGenerator();
             _generator.ArticleGenerated += Generator_ArticleGenerated;
@@ -45,10 +57,44 @@ namespace ArticleTestApp.ViewModel
             if (article != null)
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                    () =>
+                    async () =>
                     {
+                        await CacheArticleImagesAsync(article);
                         ArticleCollection.Add(article);
                     });
+            }
+        }
+
+        private static async Task CacheArticleImagesAsync(Article article)
+        {
+            try
+            {
+                article.Gallery.RemoveAll(item => item.Equals(null));
+                var itemsForDelete = new List<GalleryItem>();
+
+                foreach (var galleryItem in article.Gallery)
+                {
+                    await ImageCache.Instance.PreCacheAsync(galleryItem.ImageURI);
+                    var file = await ImageCache.Instance.GetFileFromCacheAsync(galleryItem.ImageURI);
+                    if (file == null)
+                    {
+                        itemsForDelete.Add(galleryItem);
+                    }
+                    else
+                    {
+                        var uri = new Uri(file.Path);
+                        galleryItem.ImageURI = uri;
+                    }
+                }
+
+                foreach (var galleryItem in itemsForDelete)
+                {
+                    article.Gallery.Remove(galleryItem);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
             }
         }
 
