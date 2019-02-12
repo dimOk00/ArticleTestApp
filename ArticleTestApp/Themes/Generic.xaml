@@ -1,7 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="using:ArticleTestApp.Controls">
+    xmlns:Controls="using:ArticleTestApp.Controls"
+    xmlns:data="using:ArticleLib.Data">
 
     <Style TargetType="Controls:GalleryItemControl" >
         <Setter Property="Template">
@@ -45,6 +46,35 @@
                             <Run Text="on"/>
                             <Run Text="{Binding Date, RelativeSource={RelativeSource TemplatedParent}}"/>
                     </TextBlock>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Controls:ArticleUserControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Controls:ArticleUserControl">
+                    <RelativePanel Background="Transparent">
+                        <Button RelativePanel.AlignRightWithPanel="True" Content="X" Command="{Binding ViewModel.CloseArticleCommand, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <TextBlock Text="{Binding ViewModel.SelectedArticle.Title, RelativeSource={RelativeSource TemplatedParent}}" Name="ArticleTextBlock" Style="{ThemeResource HeaderTextBlockStyle}"/>
+                        <Controls:SubTitleControl Name="AuthorTextBlock" 
+                                                  RelativePanel.Below="ArticleTextBlock" 
+                                                  FirstName="{Binding ViewModel.SelectedArticle.Author.FirstName, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  LastName="{Binding ViewModel.SelectedArticle.Author.LastName, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Date="{Binding ViewModel.SelectedArticle.DateWritten, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DateTimeOffsetToStringConverter}}" />  
+                        <TextBlock Text="{Binding ViewModel.SelectedArticle.Description, RelativeSource={RelativeSource TemplatedParent}}" Name="AuthorTextTextBlock" RelativePanel.Below="AuthorTextBlock" Style="{ThemeResource CaptionTextBlockStyle}" Margin="0, 10" HorizontalTextAlignment="Justify"/>
+                        <GridView RelativePanel.Below="AuthorTextTextBlock" Margin="20" ItemsSource="{Binding ViewModel.SelectedArticle.Gallery, RelativeSource={RelativeSource TemplatedParent}}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Controls:GalleryItemControl 
+                                        NameOfImage="{Binding Name}"
+                                        Description="{Binding Description}"
+                                        UriSource="{Binding ImageURI}"/>                
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </RelativePanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

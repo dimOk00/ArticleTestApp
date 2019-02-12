@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ViewModel="using:ArticleTestApp.ViewModel"
     xmlns:Data="using:ArticleLib.Data"
-    xmlns:UserControls="using:ArticleTestApp.UserControls"
     xmlns:Helpers="using:ArticleTestApp.Helpers"
+    xmlns:Controls="using:ArticleTestApp.Controls"
     mc:Ignorable="d">
     <Helpers:BasePage.Background>
         <ImageBrush ImageSource="/Assets/1_TYAzzTJ60x-qg5N81ElU9A.png" Stretch="UniformToFill"/>
@@ -38,7 +38,8 @@
                 <AcrylicBrush TintOpacity="0.8" 
                               TintColor="{ThemeResource SystemAltMediumColor}"/>
             </Border.Background>
-            <UserControls:ArticleUserControl Margin="20, 10" DataContext="{x:Bind ViewModel, Mode=OneWay}"/>
+            <Controls:ArticleUserControl Margin="20, 10" 
+                                         ViewModel="{x:Bind ViewModel, Mode=OneWay}"/>
         </Border>
     </Grid>
 </Helpers:BasePage>

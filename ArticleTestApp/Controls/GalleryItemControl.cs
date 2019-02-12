@@ -58,7 +58,8 @@ namespace ArticleTestApp.Controls
             var img = (d as GalleryItemControl)?.MainImage;
             if (img != null)
             {
-                img.ImageSource = new BitmapImage(e.NewValue as Uri);
+                var uri = e.NewValue as Uri;
+                img.ImageSource = uri == null ? null : new BitmapImage(uri);
             }
         }
 
