@@ -69,28 +69,26 @@ namespace ArticleTestApp.ViewModel
         {
             try
             {
-                article.Gallery.RemoveAll(item => item.Equals(null));
-                var itemsForDelete = new List<GalleryItem>();
+                var filteredGalleryItems = new List<GalleryItem>(); 
 
                 foreach (var galleryItem in article.Gallery)
                 {
+                    if (galleryItem == null)
+                    {
+                        break;
+                    }
+
                     await ImageCache.Instance.PreCacheAsync(galleryItem.ImageURI);
                     var file = await ImageCache.Instance.GetFileFromCacheAsync(galleryItem.ImageURI);
-                    if (file == null)
-                    {
-                        itemsForDelete.Add(galleryItem);
-                    }
-                    else
+                    if (file != null)
                     {
                         var uri = new Uri(file.Path);
                         galleryItem.ImageURI = uri;
+                        filteredGalleryItems.Add(galleryItem);
                     }
                 }
 
-                foreach (var galleryItem in itemsForDelete)
-                {
-                    article.Gallery.Remove(galleryItem);
-                }
+                article.Gallery = filteredGalleryItems;
             }
             catch (Exception e)
             {
