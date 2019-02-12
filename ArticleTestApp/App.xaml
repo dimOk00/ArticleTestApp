@@ -8,7 +8,6 @@
 
     <Application.Resources>
         <Converters:DateTimeOffsetToStringConverter x:Key="DateTimeOffsetToStringConverter" />
-        <Converters:ImageConverter x:Key="ImageConverter" />
         <Converters:NullVisibilityConverter x:Key="NullVisibilityConverter" />
     </Application.Resources>
 </Application>

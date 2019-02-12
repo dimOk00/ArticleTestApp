@@ -123,18 +123,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GalleryItemControl.cs" />
+    <Compile Include="Controls\SubTitleControl.cs" />
     <Compile Include="Helpers\BasePage.cs" />
     <Compile Include="Converters\DateTimeOffsetToStringConverter.cs" />
-    <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="Converters\NullVisibilityConverter.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="UserControls\ArticleUserControl.xaml.cs">
       <DependentUpon>ArticleUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\GalleryItemUserControl.xaml.cs">
-      <DependentUpon>GalleryItemUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ArticleViewerVM.cs" />
     <Compile Include="View\ArticleViewer.xaml.cs">
@@ -166,11 +164,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="UserControls\ArticleUserControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\GalleryItemUserControl.xaml">
+    <Page Include="UserControls\ArticleUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
