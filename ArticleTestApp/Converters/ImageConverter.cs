@@ -8,13 +8,14 @@ namespace ArticleTestApp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return new BitmapImage((Uri)value);
+            var bitmapImg = value as Uri;
+            return bitmapImg != null ? new BitmapImage(bitmapImg) : null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            var img = (BitmapImage) value;
-            return img.UriSource;
+            var img = value as BitmapImage;
+            return img?.UriSource;
         }
     }
 }

@@ -7,13 +7,24 @@ namespace ArticleTestApp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            DateTime targetTime  = (DateTime)value;
-            return targetTime.ToString("dd.MM.yyyy");
+            return value is DateTime targetTime ? targetTime.ToString("dd.MM.yyyy") : null;
         }
  
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return DateTime.Parse(value.ToString());
+            if (value == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                return DateTime.Parse(value.ToString());
+            }
+            catch(FormatException)
+            {
+                return null;
+            }
         }
     }
 }
