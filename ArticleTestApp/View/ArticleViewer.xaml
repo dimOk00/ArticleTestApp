@@ -8,8 +8,10 @@
     xmlns:Data="using:ArticleLib.Data"
     xmlns:UserControls="using:ArticleTestApp.UserControls"
     xmlns:Helpers="using:ArticleTestApp.Helpers"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
+    <Helpers:BasePage.Background>
+        <ImageBrush ImageSource="/Assets/1_TYAzzTJ60x-qg5N81ElU9A.png" Stretch="UniformToFill"/>
+    </Helpers:BasePage.Background>
     <Page.DataContext>
         <ViewModel:ArticleViewerVM />
     </Page.DataContext>
@@ -22,8 +24,7 @@
                  ItemsSource="{x:Bind ViewModel.ArticleCollection}"
                  SelectedItem="{x:Bind ViewModel.SelectedArticle, Mode=TwoWay}">
             <ListBox.Background>
-                <AcrylicBrush BackgroundSource="HostBackdrop" 
-                              TintOpacity="0.8" 
+                <AcrylicBrush TintOpacity="0.8" 
                               TintColor="{ThemeResource SystemAltMediumColor}"/>
             </ListBox.Background>
             <ListBox.ItemTemplate>
@@ -34,8 +35,7 @@
         </ListBox>
         <Border Margin="20, 10" Grid.Column="1" Visibility="{x:Bind ViewModel.SelectedArticle, Converter={StaticResource NullVisibilityConverter}, Mode=OneWay}">
             <Border.Background>
-                <AcrylicBrush BackgroundSource="HostBackdrop" 
-                              TintOpacity="0.8" 
+                <AcrylicBrush TintOpacity="0.8" 
                               TintColor="{ThemeResource SystemAltMediumColor}"/>
             </Border.Background>
             <UserControls:ArticleUserControl Margin="20, 10" DataContext="{x:Bind ViewModel, Mode=OneWay}"/>
